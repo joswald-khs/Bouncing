@@ -4,6 +4,8 @@ let SPEED = 3;
 
 let whichBall = 1;
 
+let ballSpawnSpeed = 30;
+
 function setup() {
   createCanvas(600, 600);
   ellipseMode(RADIUS);
@@ -12,6 +14,10 @@ function setup() {
 
 function draw() {
   background(220);
+  fill("black")
+  text(whichBall,10,10)
+  text(whichBall%3,10,25)
+  text(ballSpawnSpeed,10,40)
   drawBall(ball1);
   updateBall(ball1);
   keepInBounds(ball1);
@@ -24,6 +30,9 @@ function draw() {
   bounceBalls(ball1,ball2);
   bounceBalls(ball2,ball3);
   bounceBalls(ball1,ball3);
+  if( frameCount % ballSpawnSpeed === 0 ) {
+    rotateCreateBall()
+  }
 }
 
 function bounceBalls(ballA, ballB) {
@@ -63,24 +72,34 @@ function resetAllBalls() {
 }
 
 function mouseClicked() {
-  
+  rotateCreateBall()  
+}
+
+function rotateCreateBall() {
   // create a new ball wherever we clicked the mouse
-  if( whichBall === 1 ) {
+  if( whichBall % 3 === 0 ) {
     ball1 = createBallAt({x:mouseX,y:mouseY})
     whichBall++ // whichBall = whichBall + 1 
-  } else if( whichBall === 2 ) {
+  } else if( whichBall % 3 === 1 ) {
     ball2 = createBallAt({x:mouseX,y:mouseY})
     whichBall++ // whichBall = whichBall + 1 
-  } else if( whichBall === 3 ) {
+  } else if( whichBall % 3 === 2 ) {
     ball3 = createBallAt({x:mouseX,y:mouseY})
-    whichBall = 1
+    whichBall++
   }  
-  
 }
 
 function keyPressed() {
   if( key === 'r' ) {
     resetAllBalls()
+  }
+  
+  if( keyCode === 38) {
+    ballSpawnSpeed--
+  }
+  
+  if( keyCode === 40 ) {
+    ballSpawnSpeed++
   }
 }
 
