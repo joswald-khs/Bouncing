@@ -67,7 +67,14 @@ function mouseClicked() {
   // create a new ball wherever we clicked the mouse
   if( whichBall === 1 ) {
     ball1 = createBallAt({x:mouseX,y:mouseY})
-  }
+    whichBall++ // whichBall = whichBall + 1 
+  } else if( whichBall === 2 ) {
+    ball2 = createBallAt({x:mouseX,y:mouseY})
+    whichBall++ // whichBall = whichBall + 1 
+  } else if( whichBall === 3 ) {
+    ball3 = createBallAt({x:mouseX,y:mouseY})
+    whichBall = 1
+  }  
   
 }
 
