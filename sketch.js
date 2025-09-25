@@ -26,31 +26,31 @@ function draw() {
 
 function bounceBalls(ballA, ballB) {
   // if the distance between the centers is less than the sum of their radii
-  if( dist(ballA.x,ballA.y,ballB.x,ballB.y) <= ballA.radius + ballB.radius ) {
-    ballA.dx = ballA.dx * -1;
-    ballA.dy = ballA.dy * -1;
-    ballB.dx = ballB.dx * -1;
-    ballB.dy = ballB.dy * -1;
+  if( dist(ballA.position.x,ballA.position.y,ballB.position.x,ballB.position.y) <= ballA.radius + ballB.radius ) {
+    ballA.velocity.x *= -1;
+    ballA.velocity.y *= -1;
+    ballB.velocity.x *= -1;
+    ballB.velocity.y *= -1;
   }
 }
 
 
 function keepInBounds(ball) {
   // ball.x + ball.r > width, then we are off the screen // right
-  if( ball.x + ball.radius > width ) {
-     ball.dx = ball.dx * -1; // change x direction
+  if( ball.position.x + ball.radius > width ) {
+     ball.velocity.x *= -1; // change x direction
   }
   // ball.y + ball.r > height, then we are off the screen // bottom
-  if( ball.y + ball.radius > height ) {
-    ball.dy = ball.dy * -1; // change y direction
+  if( ball.position.y + ball.radius > height ) {
+    ball.velocity.y *= -1; // change y direction
   }
   // ball.x - ball.r < 0, then we are off the screen // left
-  if( ball.x - ball.radius < 0 ) {
-    ball.dx = ball.dx * -1; // change x direction
+  if( ball.position.x - ball.radius < 0 ) {
+    ball.velocity.x *= -1; // change x direction
   }
   // ball.y - ball.r > 0, then we are off the screen // top
-  if( ball.y - ball.radius < 0 ) {
-    ball.dy = ball.dy * -1; // change y direction
+  if( ball.position.y - ball.radius < 0 ) {
+    ball.velocity.y *= -1; // change y direction
   }
 }
 
@@ -65,13 +65,13 @@ function mouseClicked() {
 }
 
 function updateBall(ball) {
-  ball.y = ball.y + ball.dy;
-  ball.x = ball.x + ball.dx;  
+  ball.position.y = ball.position.y + ball.velocity.y;
+  ball.position.x = ball.position.x + ball.velocity.x;  
 }
 
 function drawBall(ball) { // implicit declaration of the variable (parameter) ball
   fill(ball.c);
-  circle(ball.x,ball.y,ball.radius);  
+  circle(ball.position.x,ball.position.y,ball.radius);  
 }
 
 function createBall() {
@@ -79,10 +79,13 @@ function createBall() {
   // assigning properties to that object
   ball.c = color(random(256),random(256),random(256));
   ball.radius = random(10,50); 
-  ball.x = random(ball.radius, width-ball.radius);
-  ball.y = random(ball.radius, height-ball.radius);
-  ball.dx = random(-SPEED,SPEED);
-  ball.dy = random(-SPEED,SPEED);
-  ball.radius = random(10,50);  
+  ball.position = {
+    x: random(ball.radius, width-ball.radius),
+    y: random(ball.radius, height-ball.radius)
+  }
+  ball.velocity = {
+    x: random(-SPEED,SPEED),
+    y: random(-SPEED,SPEED)
+  }
   return ball;
 }
