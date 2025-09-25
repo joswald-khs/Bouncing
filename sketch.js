@@ -2,6 +2,8 @@ let ball1, ball2, ball3;
 
 let SPEED = 3;
 
+let whichBall = 1;
+
 function setup() {
   createCanvas(600, 600);
   ellipseMode(RADIUS);
@@ -61,7 +63,18 @@ function resetAllBalls() {
 }
 
 function mouseClicked() {
-  resetAllBalls()
+  
+  // create a new ball wherever we clicked the mouse
+  if( whichBall === 1 ) {
+    ball1 = createBallAt({x:mouseX,y:mouseY})
+  }
+  
+}
+
+function keyPressed() {
+  if( key === 'r' ) {
+    resetAllBalls()
+  }
 }
 
 function updateBall(ball) {
@@ -74,18 +87,23 @@ function drawBall(ball) { // implicit declaration of the variable (parameter) ba
   circle(ball.position.x,ball.position.y,ball.radius);  
 }
 
-function createBall() {
+function createBallAt(position) {
   let ball = {} // creating an empty object
   // assigning properties to that object
-  ball.c = color(random(256),random(256),random(256));
-  ball.radius = random(10,50); 
-  ball.position = {
-    x: random(ball.radius, width-ball.radius),
-    y: random(ball.radius, height-ball.radius)
-  }
+  ball.c = color(random(256),random(256),random(256))
+  ball.radius = random(10,50)
+  ball.position = position
   ball.velocity = {
     x: random(-SPEED,SPEED),
     y: random(-SPEED,SPEED)
   }
-  return ball;
+  return ball;  
+}
+
+
+function createBall() {
+  return createBallAt({
+    x: random(50, width-50),
+    y: random(50, height-50)
+  });
 }
