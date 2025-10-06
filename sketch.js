@@ -1,4 +1,4 @@
-let ball1, ball2, ball3;
+let ballArray = []
 
 let SPEED = 3;
 
